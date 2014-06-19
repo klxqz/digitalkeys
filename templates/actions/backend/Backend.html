@@ -1,0 +1,46 @@
+<script type="text/javascript" src="{$wa_app_static_url}plugins/digitalkeys/js/digitalkeys.js"></script>
+<style>
+    .digital-key{
+        margin-top: 10px;
+    }
+</style>
+
+
+{foreach $product->skus as $sku}
+    <div>
+        <h3>{if $sku.sku}[{$sku.sku}]{/if}{if $sku.name}{$sku.name|escape}{/if}</h3>
+
+        <div class="field">
+            <div class="name">
+                Цифровые коды артикула:
+            </div>
+
+            <div class="value">
+                <input class="sku-id" type="hidden" name="sku_id" value="{$sku.id}" >
+                {if $digital_keys[$sku.id]}
+                    {foreach $digital_keys[$sku.id] as $digital_key}
+                        <div class="digital-keys">
+                            <div class="digital-key"><input type="text" name="digital_keys[{$sku.id}][{$digital_key.id}]" value="{$digital_key.key}" ><a class="delete-digital-key" href="#"><i class="icon16 delete"></i></a></div>
+                        </div>
+                    {/foreach}
+                {else}
+                    <div class="digital-keys">
+                        <div class="digital-key"><input type="text" name="digital_keys[{$sku.id}][]" value="" ><a class="delete-digital-key" href="#"><i class="icon16 delete"></i></a></div>
+                    </div>
+                {/if}
+                <br>
+                <div>
+                    <a class="add-digital-key" href="#"><i class="icon16 add"></i><b><i>Добавить</i></b></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{/foreach}
+
+<script type="text/javascript">
+    $.product_digitalkeys.init({
+        container: '.s-product-form.digitalkeys',
+        counter: '#s-product-edit-menu li.services span.hint',
+        product_id: {$product->id},
+    });
+</script>
