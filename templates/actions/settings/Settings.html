@@ -28,37 +28,50 @@
 
         <div class="field">
             <div class="name">
+                Рассчитывать остаток на складе по количеству цифровых ключей
+            </div>
+            <div class="value">
+                <input type="hidden" name="shop_digitalkeys[stock]" value="0" />
+                <input {if $settings.stock}checked="checked"{/if} type="checkbox" name="shop_digitalkeys[stock]" value="1" />
+          
+            </div>
+        </div>
+        
+        
+        <div class="field">
+            <div class="name">
                 Тип товаров
             </div>
             <div class="value">
                 {foreach $product_types as $key => $product_type}
-                    <input type="hidden" name="shop_digitalkeys[product_types][{$key}]" value="0" />
-                    <div><i class="icon16 {$product_type.icon}"></i><input {if isset($settings['product_types'][$key]) && $settings['product_types'][$key]}checked="checked"{/if} type="checkbox" name="shop_digitalkeys[product_types][{$key}]" value="1" /> - {$product_type.name}</div>
+                <input type="hidden" name="shop_digitalkeys[product_types][{$key}]" value="0" />
+                <div><i class="icon16 {$product_type.icon}"></i><input {if isset($settings['product_types'][$key]) && $settings['product_types'][$key]}checked="checked"{/if} type="checkbox" name="shop_digitalkeys[product_types][{$key}]" value="1" /> - {$product_type.name}</div>
 
                 {/foreach}          
             </div>
         </div>
 
 
-        {*
-        {foreach from=$templates key=key item=template}
         <div class="field">
-        <div class="name">{$template.name}<br /><span class="hint">HTML + Smarty</span></div>
-        <div class="value no-shift">
-        <div id="s-editor-core-wrapper">
-        <textarea id="sf-template-{$key}"  class="body" name="templates[{$key}]">{$template.template}</textarea>
-        </div>
+            <div class="name">
+                Текст Email сообщения отправки цифровых ключей, высылаемый после оплаты закза<br><span class="hint">HTML + Smarty</span>
+            </div>
+            <div class="value no-shift">
+                <div id="s-editor-core-wrapper">
+                    <textarea id="sf-template" class="body" name="template_path">{$template|escape}</textarea>
+
+                </div>
+            </div>
+
+            {if $change_tpl}
+            <div class="value">
+                <p class="gray"><i class="icon16 exclamation"></i>Внимание! Шаблон по умолчанию был изменен</p>
+                <input type="checkbox" name="reset_tpls" value="1"  /> - Сбросить изменения, использовать шаблон по умолчанию
+            </div>
+            {/if}
         </div>
 
-        {if $template.change_tpl}
-        <div class="value">
-        <p class="gray"><i class="icon16 exclamation"></i>Внимание! Шаблон по умолчанию был изменен</p>
-        <input type="checkbox" name="reset_tpls[{$key}]" value="1"  /> - Сбросить изменения, использовать шаблон по умолчанию
-        </div>
-        {/if}
-        </div>
-        {/foreach}
-        *}
+
 
         <div class="field">
             <div class="value submit">
@@ -70,45 +83,36 @@
         </div>
     </form>
 </div>
-{*
 <script type="text/javascript">
-$(function() {
+    $(function() {
 
-var ids = ["sf-template-FrontendNav", "sf-template-FrontendProduct", "sf-template-FrontendCart", "sf-template-StockInfo"];
-for (var i = 0; i < ids.length; i++) {
-    
-var c = CodeMirror.fromTextArea(document.getElementById(ids[i]), {
-mode: "text/html",
-tabMode: "indent",
-height: "dynamic",
-lineWrapping: true
-});
-$(ids[i]).change(function() {
-c.setValue($(this).val())
-});
-$(ids[i]).submit(function() {
-var f = $(this);
-$.post(f.attr('action'), f.serialize(), function(response) {
-if (response.status == 'ok') {
-$('#wa-design-button').removeClass('red').addClass('green');
-$("#wa-editor-status-fail").hide()
-$("#wa-editor-status-ok span").html(response.data.message);
-$("#wa-editor-status-ok").fadeIn('slow', function() {
-$(this).fadeOut(1000);
-});
-} else {
-$('#wa-design-button').removeClass('green').addClass('red');
-$("#wa-editor-status-ok").hide();
-$("#wa-editor-status-fail span").html(response.errors.join(', '));
-$("#wa-editor-status-fail").fadeIn('slow');
-}
-}, "json")
-return false;
-});
-
-}
-
-
-});
+        var c = CodeMirror.fromTextArea(document.getElementById('sf-template'), {
+            mode: "text/html",
+            tabMode: "indent",
+            height: "dynamic",
+            lineWrapping: true
+        });
+        $("#sf-template").change(function() {
+            c.setValue($(this).val())
+        });
+        $("#sf-settings").submit(function() {
+            var f = $(this);
+            $.post(f.attr('action'), f.serialize(), function(response) {
+                if (response.status == 'ok') {
+                    $('#wa-design-button').removeClass('red').addClass('green');
+                    $("#wa-editor-status-fail").hide()
+                    $("#wa-editor-status-ok span").html(response.data.message);
+                    $("#wa-editor-status-ok").fadeIn('slow', function() {
+                        $(this).fadeOut(1000);
+                    });
+                } else {
+                    $('#wa-design-button').removeClass('green').addClass('red');
+                    $("#wa-editor-status-ok").hide();
+                    $("#wa-editor-status-fail span").html(response.errors.join(', '));
+                    $("#wa-editor-status-fail").fadeIn('slow');
+                }
+            }, "json")
+            return false;
+        });
+    });
 </script>
-*}

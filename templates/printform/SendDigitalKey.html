@@ -1,7 +1,36 @@
-<p>Здравствуйте, Админ!</p>
-<p>Получена новая заявка на выплату в размере {shop_currency($payment.amount)} от {$referral.name|escape}</p>
+<style>
+table.table { margin-top: 25px; margin-left: -10px; width: 100%; border-spacing:0; border-collapse:collapse; }
+table.table td { padding: 15px 7px 20px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
+table.table td.min-width { width: 1%; }
+table.table td p { margin: 0; }
+table.table td input.numerical { width: 50px; margin-right: 5px; text-align: right; }
+table.table tr.no-border td { border: none; }
+table.table tr.thin td { padding-top: 13px; padding-bottom: 0; }
+.align-right { text-align: right; }
+.nowrap { white-space: nowrap; }
+pre { word-wrap: break-word; }
+</style>
+        
+<h1>{$order.id}</h1>
+
+<table class="table">
+    <tr>
+        <th>Наименование</th>
+        <th>Ключ</th>
+    </tr>
+    {foreach $send_keys as $key}
+    <tr>
+        <td>{$key.name}</td>
+        <td class="align-right nowrap">{$key.key}</td>
+    </tr>
+    {/foreach}
+</table>
+
+
+
+<p>Спасибо за покупку в магазине «{$wa->shop->settings("name")|escape}»!</p>
+
 <p>--<br>
-    {$wa->shop->settings("name")|escape}<br>
-    <a href="mailto:{$wa->shop->settings("email")}">{$wa->shop->settings("email")}</a><br>
-    {$wa->shop->settings("phone")}<br>
-</p>
+{$wa->shop->settings("name")|escape}<br>
+<a href="mailto:{$wa->shop->settings("email")}">{$wa->shop->settings("email")}</a><br>
+{$wa->shop->settings("phone")}<br></p>

@@ -2,12 +2,7 @@
 
 class shopDigitalkeysPluginSettingsAction extends waViewAction {
 
-    protected $templates = array(
-        'FrontendNav' => array('name' => 'Шаблон краткого списка', 'tpl_path' => 'plugins/stock/templates/FrontendNav.html'),
-        'FrontendProduct' => array('name' => 'Шаблон в карточке товара', 'tpl_path' => 'plugins/stock/templates/FrontendProduct.html'),
-        'FrontendCart' => array('name' => 'Шаблон в корзине', 'tpl_path' => 'plugins/stock/templates/FrontendCart.html'),
-        'StockInfo' => array('name' => 'Шаблон "Информация об акции"', 'tpl_path' => 'plugins/stock/templates/StockInfo.html'),
-    );
+    protected $tpl_path = 'plugins/digitalkeys/templates/printform/SendDigitalKey.html';
     protected $plugin_id = array('shop', 'digitalkeys');
 
     public function execute() {
@@ -21,8 +16,24 @@ class shopDigitalkeysPluginSettingsAction extends waViewAction {
         $type_model = new shopTypeModel();
         $product_types = $type_model->getAll($type_model->getTableId(), true);
 
-        $this->view->assign('settings', $settings);
-        $this->view->assign('product_types', $product_types);
+        $change_tpl = false;
+        $template_path = wa()->getDataPath($this->tpl_path, false, 'shop', true);
+        if (file_exists($template_path)) {
+            $change_tpl = true;
+        } else {
+            $template_path = wa()->getAppPath($this->tpl_path, 'shop');
+        }
+        $template = file_get_contents($template_path);
+
+
+        $this->view->assign(
+                array(
+                    'settings' => $settings,
+                    'product_types' => $product_types,
+                    'template' => $template,
+                    'change_tpl' => $change_tpl
+                )
+        );
     }
 
 }
