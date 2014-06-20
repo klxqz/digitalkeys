@@ -1,0 +1,7 @@
+<p>Здравствуйте, Админ!</p>
+<p>Получена новая заявка на выплату в размере {shop_currency($payment.amount)} от {$referral.name|escape}</p>
+<p>--<br>
+    {$wa->shop->settings("name")|escape}<br>
+    <a href="mailto:{$wa->shop->settings("email")}">{$wa->shop->settings("email")}</a><br>
+    {$wa->shop->settings("phone")}<br>
+</p>

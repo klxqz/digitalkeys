@@ -8,133 +8,57 @@
         overflow-x: auto;
     }
 </style>
-<h1>Акции</h1>
+<h1>Цифровые ключи</h1>
 <div     class="fields form">
-    <form action="?plugin=stock&action=savesettings" method="post" id="plugins-settings-form">
+    <form action="?plugin=digitalkeys&action=saveSettings" method="post" id="plugins-settings-form">
         {$wa->csrf()}
 
 
-        {literal}
-        <p>{shopStockPlugin::shortList()} - Код хелпера вывода(краткий список)</p>
-        <p>{shopStockPlugin::StockInfo($product.id)} - Код хелпера вывода(Информация об акции) $product.id - переменная с идентификатором продукта</p>
-        {/literal}
-        <p class="gray">
-            <i class="icon16 exclamation"></i>
-            Используя этот код Вы можете осуществить вывод "Акции" в любом месте вашей темы оформления, это позволяет избавиться от привязки к конкретным местам вывода плагина
-        </p>
-        <div class="field-group">
-            <div class="field">
-                <div class="name">
-                    Статус плагина
-                </div>
-                <div class="value">
-                    <select name="shop_stock[status]">
-                        <option {if $settings.status == 1} selected="selected"{/if} value="1">Включен</option>
-                        <option {if $settings.status == 0} selected="selected"{/if} value="0">Выключен</option>
-                    </select>
-                </div>
+        <div class="field">
+            <div class="name">
+                Статус плагина
             </div>
-
-
-            <div class="field">
-                <div class="name">
-                    Заголовок страницы «Акции»
-                </div>
-                <div class="value">
-                    <input type="text" name="shop_stock[page_title]" value="{$settings.page_title|escape}"  />
-
-                </div>
+            <div class="value">
+                <select name="shop_digitalkeys[status]">
+                    <option {if $settings.status == 1} selected="selected"{/if} value="1">Включен</option>
+                    <option {if $settings.status == 0} selected="selected"{/if} value="0">Выключен</option>
+                </select>
             </div>
         </div>
 
-        <div class="field-group">
-
-            <div class="field">
-                <div class="name">
-                    Вывод краткого списка в стандартном месте
-                </div>
-                <div class="value">
-                    <select name="shop_stock[default_output]">
-                        <option {if $settings.default_output == 1} selected="selected"{/if} value="1">Включен</option>
-                        <option {if $settings.default_output == 0} selected="selected"{/if} value="0">Выключен</option>
-                    </select>
-                    <p class="gray">
-                        <i class="icon16 exclamation"></i>
-                        Вывод краткого списка акций в стандартном месте. Вы можете отключить стандартный вывод, это может быть полезно если вы используете хелпер вывода
-                    </p>
-                </div>
+        <div class="field">
+            <div class="name">
+                Тип товаров
             </div>
+            <div class="value">
+                {foreach $product_types as $key => $product_type}
+                    <input type="hidden" name="shop_digitalkeys[product_types][{$key}]" value="0" />
+                    <div><i class="icon16 {$product_type.icon}"></i><input {if isset($settings['product_types'][$key]) && $settings['product_types'][$key]}checked="checked"{/if} type="checkbox" name="shop_digitalkeys[product_types][{$key}]" value="1" /> - {$product_type.name}</div>
 
-            <div class="field">
-                <div class="name">
-                    Количество выводимых товаров
-                </div>
-                <div class="value">
-                    <input type="text" name="shop_stock[count]" value="{$settings.count|escape}"  />
-                </div>
-            </div>
-        </div>
-
-        <div class="field-group">
-            <div class="field">
-                <div class="name">
-                    Вывод информации об акции в карточке товара
-                </div>
-                <div class="value">
-                    <select name="shop_stock[frontend_product]">
-                        <option {if $settings.frontend_product == 1} selected="selected"{/if} value="1">Включен</option>
-                        <option {if $settings.frontend_product == 0} selected="selected"{/if} value="0">Выключен</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="field">
-                <div class="name">
-                    Место вывода
-                </div>
-                <div class="value">
-                    <select name="shop_stock[frontend_product_output]">
-                        <option {if $settings.frontend_product_output == 1} selected="selected"{/if} value="cart">Содержимое, добавляемое рядом с кнопкой «В корзину».</option>
-                        <option {if $settings.frontend_product_output == 0} selected="selected"{/if} value="block_aux">Блок дополнительной информации в боковой части страницы.</option>
-                        <option {if $settings.frontend_product_output == 0} selected="selected"{/if} value="block">Блок дополнительной информации в основной части описания товара.</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        
-        <div class="field-group">
-            <div class="field">
-                <div class="name">
-                    Вывод информации об акции в корзине
-                </div>
-                <div class="value">
-                    <select name="shop_stock[frontend_cart]">
-                        <option {if $settings.frontend_cart == 1} selected="selected"{/if} value="1">Включен</option>
-                        <option {if $settings.frontend_cart == 0} selected="selected"{/if} value="0">Выключен</option>
-                    </select>
-                </div>
+                {/foreach}          
             </div>
         </div>
 
 
+        {*
         {foreach from=$templates key=key item=template}
         <div class="field">
-            <div class="name">{$template.name}<br /><span class="hint">HTML + Smarty</span></div>
-            <div class="value no-shift">
-                <div id="s-editor-core-wrapper">
-                    <textarea id="sf-template-{$key}"  class="body" name="templates[{$key}]">{$template.template}</textarea>
-                </div>
-            </div>
+        <div class="name">{$template.name}<br /><span class="hint">HTML + Smarty</span></div>
+        <div class="value no-shift">
+        <div id="s-editor-core-wrapper">
+        <textarea id="sf-template-{$key}"  class="body" name="templates[{$key}]">{$template.template}</textarea>
+        </div>
+        </div>
 
-            {if $template.change_tpl}
-            <div class="value">
-                <p class="gray"><i class="icon16 exclamation"></i>Внимание! Шаблон по умолчанию был изменен</p>
-                <input type="checkbox" name="reset_tpls[{$key}]" value="1"  /> - Сбросить изменения, использовать шаблон по умолчанию
-            </div>
-            {/if}
+        {if $template.change_tpl}
+        <div class="value">
+        <p class="gray"><i class="icon16 exclamation"></i>Внимание! Шаблон по умолчанию был изменен</p>
+        <input type="checkbox" name="reset_tpls[{$key}]" value="1"  /> - Сбросить изменения, использовать шаблон по умолчанию
+        </div>
+        {/if}
         </div>
         {/foreach}
-
+        *}
 
         <div class="field">
             <div class="value submit">
@@ -146,43 +70,45 @@
         </div>
     </form>
 </div>
+{*
 <script type="text/javascript">
-    $(function() {
+$(function() {
 
-        var ids = ["sf-template-FrontendNav", "sf-template-FrontendProduct", "sf-template-FrontendCart", "sf-template-StockInfo"];
-        for (var i = 0; i < ids.length; i++) {
-            
-            var c = CodeMirror.fromTextArea(document.getElementById(ids[i]), {
-            mode: "text/html",
-            tabMode: "indent",
-            height: "dynamic",
-            lineWrapping: true
-        });
-        $(ids[i]).change(function() {
-            c.setValue($(this).val())
-        });
-        $(ids[i]).submit(function() {
-            var f = $(this);
-            $.post(f.attr('action'), f.serialize(), function(response) {
-                if (response.status == 'ok') {
-                    $('#wa-design-button').removeClass('red').addClass('green');
-                    $("#wa-editor-status-fail").hide()
-                    $("#wa-editor-status-ok span").html(response.data.message);
-                    $("#wa-editor-status-ok").fadeIn('slow', function() {
-                        $(this).fadeOut(1000);
-                    });
-                } else {
-                    $('#wa-design-button').removeClass('green').addClass('red');
-                    $("#wa-editor-status-ok").hide();
-                    $("#wa-editor-status-fail span").html(response.errors.join(', '));
-                    $("#wa-editor-status-fail").fadeIn('slow');
-                }
-            }, "json")
-            return false;
-        });
+var ids = ["sf-template-FrontendNav", "sf-template-FrontendProduct", "sf-template-FrontendCart", "sf-template-StockInfo"];
+for (var i = 0; i < ids.length; i++) {
+    
+var c = CodeMirror.fromTextArea(document.getElementById(ids[i]), {
+mode: "text/html",
+tabMode: "indent",
+height: "dynamic",
+lineWrapping: true
+});
+$(ids[i]).change(function() {
+c.setValue($(this).val())
+});
+$(ids[i]).submit(function() {
+var f = $(this);
+$.post(f.attr('action'), f.serialize(), function(response) {
+if (response.status == 'ok') {
+$('#wa-design-button').removeClass('red').addClass('green');
+$("#wa-editor-status-fail").hide()
+$("#wa-editor-status-ok span").html(response.data.message);
+$("#wa-editor-status-ok").fadeIn('slow', function() {
+$(this).fadeOut(1000);
+});
+} else {
+$('#wa-design-button').removeClass('green').addClass('red');
+$("#wa-editor-status-ok").hide();
+$("#wa-editor-status-fail span").html(response.errors.join(', '));
+$("#wa-editor-status-fail").fadeIn('slow');
+}
+}, "json")
+return false;
+});
 
-        }
+}
 
-        
-    });
+
+});
 </script>
+*}

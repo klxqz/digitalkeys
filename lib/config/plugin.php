@@ -10,6 +10,6 @@ return array(
     'shop_settings' => true,
     'handlers' => array(
         'backend_product' => 'backendProduct',
-        'order_action.create' => 'orderActionCreate',
+        'order_action.pay' => 'orderActionPay',
     ),
 );

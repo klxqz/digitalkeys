@@ -1,23 +1,26 @@
 <?php
 
-class shopStockPluginBackendSavesettingsController extends waJsonController {
-
+class shopDigitalkeysPluginBackendSavesettingsController extends waJsonController {
+/*
     protected $templates = array(
         'FrontendNav' => array('name' => 'Шаблон краткого списка', 'tpl_path' => 'plugins/stock/templates/FrontendNav.html'),
         'FrontendProduct' => array('name' => 'Шаблон в карточке товара', 'tpl_path' => 'plugins/stock/templates/FrontendProduct.html'),
         'FrontendCart' => array('name' => 'Шаблон в корзине', 'tpl_path' => 'plugins/stock/templates/FrontendCart.html'),
         'StockInfo' => array('name' => 'Шаблон "Информация об акции"', 'tpl_path' => 'plugins/stock/templates/StockInfo.html'),
-    );
-    protected $plugin_id = array('shop', 'stock');
+    );*/
+    protected $plugin_id = array('shop', 'digitalkeys');
 
     public function execute() {
         try {
             $app_settings_model = new waAppSettingsModel();
-            $settings = waRequest::post('shop_stock');
+            $settings = waRequest::post('shop_digitalkeys');
 
             foreach ($settings as $name => $value) {
+                if(is_array($value)) {
+                    $value = json_encode($value);
+                }
                 $app_settings_model->set($this->plugin_id, $name, $value);
-            }
+            }/*
 
             $post_templates = waRequest::post('templates');
             $reset_tpls = waRequest::post('reset_tpls');
@@ -50,7 +53,7 @@ class shopStockPluginBackendSavesettingsController extends waJsonController {
                         fclose($f);
                     }
                 }
-            }
+            }*/
 
             $this->response['message'] = "Сохранено";
         } catch (Exception $e) {
