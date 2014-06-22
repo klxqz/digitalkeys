@@ -5,8 +5,8 @@
     }
 </style>
 
-
 {foreach $product->skus as $sku}
+    <input type="hidden" name="digital_keys[{$sku.id}][]" value="" >
     <div>
         <h3>{if $sku.sku}[{$sku.sku}]{/if}{if $sku.name}{$sku.name|escape}{/if}</h3>
 
@@ -20,12 +20,17 @@
                 {if $digital_keys[$sku.id]}
                     <div class="digital-keys">
                         {foreach $digital_keys[$sku.id] as $digital_key}
-                            <div class="digital-key"><input type="text" name="digital_keys[{$sku.id}][]" value="{$digital_key.key}" ><a class="delete-digital-key" href="#"><i class="icon16 delete"></i></a></div>
+                            <div class="digital-key">
+                                <input type="text" name="digital_keys[{$sku.id}][]" value="{$digital_key.key}" >
+                                <a class="delete-digital-key" href="#"><i class="icon16 delete"></i></a>
+                            </div>
                         {/foreach}
                     </div>
                 {else}
                     <div class="digital-keys">
-                        <div class="digital-key"><input type="text" name="digital_keys[{$sku.id}][]" value="" ><a class="delete-digital-key" href="#"><i class="icon16 delete"></i></a></div>
+                        <div class="digital-key"><input type="text" name="digital_keys[{$sku.id}][]" value="" >
+                            <a class="delete-digital-key" href="#"><i class="icon16 delete"></i></a>
+                        </div>
                     </div>
                 {/if}
                 <br>

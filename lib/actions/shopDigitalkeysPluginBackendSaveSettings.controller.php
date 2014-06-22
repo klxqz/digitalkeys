@@ -17,9 +17,6 @@ class shopDigitalkeysPluginBackendSavesettingsController extends waJsonControlle
                 $app_settings_model->set($this->plugin_id, $name, $value);
             }
 
-
-
-
             if (waRequest::post('reset_tpl')) {
                 $template_path = wa()->getDataPath($this->tpl_path, false, 'shop', true);
                 @unlink($template_path);
@@ -44,7 +41,6 @@ class shopDigitalkeysPluginBackendSavesettingsController extends waJsonControlle
                     fclose($f);
                 }
             }
-
 
             $this->response['message'] = "Сохранено";
         } catch (Exception $e) {

@@ -48,11 +48,7 @@
             this.form = $('#s-product-save');
 
             if (this.product_id) {
-
                 // maintain intearaction with $.product object
-
-
-
                 $.product.editTabDigitalkeysBlur = function() {
                     var that = $.product_digitalkeys;
 
@@ -91,22 +87,21 @@
 
             var form = this.form;
             var that = this;
-            
-            
-            
             var url = '?plugin=digitalkeys&action=save';
-            return $.shop.jsonPost(
-                    url,
-                    form.serialize(),
-                    function(r) {
-                        $.product.refresh();
-                        $('#s-product-save-button').removeClass('yellow green').addClass('green');
+            setTimeout(function() {
+                return $.shop.jsonPost(
+                        url,
+                        form.serialize(),
+                        function(r) {
+                            $.product.updateData(r.data, 'profile', null);
+                            $.product.refresh();
+                            $('#s-product-save-button').removeClass('yellow green').addClass('green');
+                            that.form_serialized_data = form.serialize();
+                            $.products.dispatch();
+                        }
+                );
+            }, 1000);
 
-                        that.form_serialized_data = form.serialize();
-
-                        $.products.dispatch();
-                    }
-            );
         },
     };
 })(jQuery);

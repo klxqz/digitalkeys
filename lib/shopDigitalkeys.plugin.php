@@ -36,7 +36,9 @@ class shopDigitalkeysPlugin extends shopPlugin {
                         'name' => $item['name'],
                         'key' => $digital_keys[$i]['key']
                     );
-                    $digital_keys_model->deleteById($digital_keys[$i]['id']);
+                    $sql = "DELETE FROM `shop_digital_keys` WHERE `sku_id` = '" . (int) $digital_keys[$i]['sku_id']
+                            . "' AND `key` = '" . $digital_keys_model->escape($digital_keys[$i]['key']) . "'";
+                    $digital_keys_model->query($sql);
                     $comment = "Отправка цифрового ключа для товара: " .
                             $item['name'] . ($item['sku_code'] ? "(" . $item['sku_code'] . ")" : "") . " - " . $digital_keys[$i]['key'];
                     $data = array(
