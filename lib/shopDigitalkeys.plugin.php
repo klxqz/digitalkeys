@@ -36,13 +36,15 @@ class shopDigitalkeysPlugin extends shopPlugin {
                         'name' => $item['name'],
                         'key' => $digital_keys[$i]['key']
                     );
-                    //$digital_keys_model->deleteById($digital_keys[$i]['id']);
+                    $digital_keys_model->deleteById($digital_keys[$i]['id']);
+                    $comment = "Отправка цифрового ключа для товара: " .
+                            $item['name'] . ($item['sku_code'] ? "(" . $item['sku_code'] . ")" : "") . " - " . $digital_keys[$i]['key'];
                     $data = array(
                         'action_id' => 'comment',
                         'order_id' => $order_id,
                         'before_state_id' => $order['state_id'],
                         'after_state_id' => $order['state_id'],
-                        'text' => "Отправка цифрового ключа для товара: " . $item['name'] . "(" . $item['sku_code'] . ") - " . $digital_keys[$i]['key']
+                        'text' => $comment
                     );
                     $log_model->add($data);
                 }

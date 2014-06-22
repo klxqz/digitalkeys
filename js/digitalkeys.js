@@ -91,8 +91,9 @@
 
             var form = this.form;
             var that = this;
-            $.product.refresh('submit');
-
+            
+            
+            
             var url = '?plugin=digitalkeys&action=save';
             return $.shop.jsonPost(
                     url,

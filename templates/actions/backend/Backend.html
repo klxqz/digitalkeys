@@ -18,11 +18,11 @@
             <div class="value">
                 <input class="sku-id" type="hidden" name="sku_id" value="{$sku.id}" >
                 {if $digital_keys[$sku.id]}
-                    {foreach $digital_keys[$sku.id] as $digital_key}
-                        <div class="digital-keys">
-                            <div class="digital-key"><input type="text" name="digital_keys[{$sku.id}][{$digital_key.id}]" value="{$digital_key.key}" ><a class="delete-digital-key" href="#"><i class="icon16 delete"></i></a></div>
-                        </div>
-                    {/foreach}
+                    <div class="digital-keys">
+                        {foreach $digital_keys[$sku.id] as $digital_key}
+                            <div class="digital-key"><input type="text" name="digital_keys[{$sku.id}][]" value="{$digital_key.key}" ><a class="delete-digital-key" href="#"><i class="icon16 delete"></i></a></div>
+                        {/foreach}
+                    </div>
                 {else}
                     <div class="digital-keys">
                         <div class="digital-key"><input type="text" name="digital_keys[{$sku.id}][]" value="" ><a class="delete-digital-key" href="#"><i class="icon16 delete"></i></a></div>
