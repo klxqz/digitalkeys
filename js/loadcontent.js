@@ -8,6 +8,9 @@ $.product.editTabLoadContent = function(path, post) {
     if (path.tab == 'digitalkeys') {
         url = '?plugin=digitalkeys&id=' + path.id;
     }
+    if (path.tab == 'stock') {
+        var url = '?plugin=stock&id=' + path.id;
+    }
     if (path.tail) {
         url += '&param[]=' + path.tail.split('/').join('&param[]=');
     }
@@ -73,4 +76,4 @@ $.product.editTabLoadContent = function(path, post) {
         }
     });
 
-}
+};
