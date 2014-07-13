@@ -5,9 +5,18 @@ class shopDigitalkeysPlugin extends shopPlugin {
     public function backendProduct($product) {
         $type_id = $product['type_id'];
         $product_types = $this->getSettings('product_types');
-        if ($this->getSettings('status') && isset($product_types[$type_id]) && $product_types[$type_id]) {
+        if ($this->getSettings('status')) {
             $view = wa()->getView();
+            $show_tab =  isset($product_types[$type_id]) && $product_types[$type_id];
             $view->assign('product', $product);
+            $enabled_product_types = array();
+            foreach($product_types as $product_type => $on) {
+                if($on) {
+                    $enabled_product_types[] = $product_type;
+                }
+            }
+            $view->assign('product_types', $enabled_product_types);
+            $view->assign('show_tab', $show_tab);
             $html = $view->fetch('plugins/digitalkeys/templates/BackendProduct.html');
             return array('edit_section_li' => $html);
         }

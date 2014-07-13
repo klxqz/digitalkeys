@@ -1,5 +1,17 @@
-<li class="digitalkeys">
+<li class="digitalkeys" {if !$show_tab}style="display:none;"{/if}>
     <a href="#/product/{$product.id}/edit/digitalkeys/">Цифровые ключи<span class="hint"></span>
-        <span class="s-product-edit-tab-status"></span></a>
+        <span class="s-product-edit-tab-status"></span>
+    </a>
 </li>
 <script src="{$wa_app_static_url}plugins/digitalkeys/js/loadcontent.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $('select[name="product[type_id]"]').change(function() {
+        var product_types = ['{implode("','", $product_types)}'];
+        var selected = $(this).find('option:selected').val();
+        if (product_types.indexOf(selected) != -1) {
+            $('ul#s-product-edit-menu li.digitalkeys').show();
+        } else {
+            $('ul#s-product-edit-menu li.digitalkeys').hide();
+        }
+    });
+</script>
